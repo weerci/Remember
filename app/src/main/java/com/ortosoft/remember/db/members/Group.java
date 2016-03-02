@@ -81,35 +81,51 @@ public class Group {
 
     private long insertMember(Member member, Context context)
     {
-//        ContentValues cv = new ContentValues();
-//        cv.put(Tables.GroupMember.COLUMN_NAME, );
-//
-//        Connect connect = Connect.Item(context);
-//        connect.getDb().beginTransaction();
-//
-//        long result = 0;
-//        try {
-//            result = connect.getDb().insert(Tables.GroupMember.TABLE_NAME, null, cv);
-//            connect.getDb().setTransactionSuccessful();
-//        } finally {
-//            connect.getDb().endTransaction();
-//        }
-
-//        return result;
-        return 0;
-    }
-
-    private long insert(Context context)
-    {
         ContentValues cv = new ContentValues();
-        cv.put(Tables.TableGroup.COLUMN_NAME, this._name);
+        cv.put(Tables.MembersGroups.COLUMN_ID_GROUP, this.get_id());
+        cv.put(Tables.MembersGroups.COLUMN_ID_MEMBERS, member.get_id());
 
         Connect connect = Connect.Item(context);
         connect.getDb().beginTransaction();
 
         long result = 0;
         try {
-            result = connect.getDb().insert(Tables.TableGroup.TABLE_NAME, null, cv);
+            result = connect.getDb().insert(Tables.MembersGroups.TABLE_NAME, null, cv);
+            connect.getDb().setTransactionSuccessful();
+        } finally {
+            connect.getDb().endTransaction();
+        }
+
+        return result;
+    }
+
+    private void DeleteMember(Member member, Context context)
+    {
+        Connect connect = Connect.Item(context);
+        connect.getDb().beginTransaction();
+
+        connect.getDb().beginTransaction();
+        try {
+            connect.getDb().delete(Tables.MembersGroups.TABLE_NAME,
+                    Tables.MembersGroups.COLUMN_ID_GROUP + " = ? AND " + Tables.MembersGroups.COLUMN_ID_MEMBERS + " = ?",
+                    new String[]{String.valueOf(this.get_id()), String.valueOf(member.get_id())});
+            connect.getDb().setTransactionSuccessful();
+        } finally {
+            connect.getDb().endTransaction();
+        }
+    }
+
+    private long insert(Context context)
+    {
+        ContentValues cv = new ContentValues();
+        cv.put(Tables.Group.COLUMN_NAME, this._name);
+
+        Connect connect = Connect.Item(context);
+        connect.getDb().beginTransaction();
+
+        long result = 0;
+        try {
+            result = connect.getDb().insert(Tables.Group.TABLE_NAME, null, cv);
             connect.getDb().setTransactionSuccessful();
         } finally {
             connect.getDb().endTransaction();
@@ -120,13 +136,13 @@ public class Group {
     private long update(Context context)
     {
         ContentValues cv=new ContentValues();
-        cv.put(Tables.TableGroup.COLUMN_NAME, this._name);
+        cv.put(Tables.Group.COLUMN_NAME, this._name);
 
         Connect connect = Connect.Item(context);
         connect.getDb().beginTransaction();
         int result;
         try {
-            result = connect.getDb().update(Tables.TableGroup.TABLE_NAME, cv, Tables.TableGroup.COLUMN_ID + " = ?", new String[] { String.valueOf(this._id) });
+            result = connect.getDb().update(Tables.Group.TABLE_NAME, cv, Tables.Group.COLUMN_ID + " = ?", new String[] { String.valueOf(this._id) });
             connect.getDb().setTransactionSuccessful();
         } finally {
             connect.getDb().endTransaction();

@@ -1,8 +1,8 @@
 <resources>
-    <string _name="app_name">Remember</string>
-    <string _name="action_settings">Settings</string>
+    <string name="app_name">Remember</string>
+    <string name="action_settings">Settings</string>
 
 
-    <string _name="unknown_name">--Unknown--</string>
+    <string name="unknown_name">--Unknown--</string>
 
 </resources>
