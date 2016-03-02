@@ -1,4 +1,4 @@
-package com.ortosoft.remember.db.members;
+package com.ortosoft.remember.db;
 
 /**
  * Created by dima on 01.03.2016.

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.ortosoft.remember.db.members.Tables;
-
 import java.util.ArrayList;
 
 /**
@@ -59,6 +57,7 @@ public class Connect {
 
     // endregion
 
+    //
     public static Connect Item(Context context){
         if (mConnect == null) {
             mConnect = new Connect(context);

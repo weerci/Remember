@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 
 import com.ortosoft.remember.db.Connect;
+import com.ortosoft.remember.db.Tables;
 
 import java.util.ArrayList;
 
