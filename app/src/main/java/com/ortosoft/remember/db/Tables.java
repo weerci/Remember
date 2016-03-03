@@ -76,7 +76,7 @@ public class Tables {
 
     // endregion
 
-    // region Routine
+    // region Преобразование перечислений IsDead и Baptized
 
     public static int BaptizedToInt(IsBaptized isBaptized)
     {

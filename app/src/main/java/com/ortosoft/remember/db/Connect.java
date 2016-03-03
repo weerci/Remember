@@ -54,10 +54,13 @@ public class Connect {
         }
     }
 
-
     // endregion
 
-    //
+    public Context getContext() {
+        return mContext;
+    }
+
+    // Статический конструктор для класса
     public static Connect Item(Context context){
         if (mConnect == null) {
             mConnect = new Connect(context);
@@ -67,10 +70,6 @@ public class Connect {
 
     public static SQLiteDatabase getDb() {
         return mDataBase;
-    }
-
-    public Context getContext() {
-        return mContext;
     }
 
 
