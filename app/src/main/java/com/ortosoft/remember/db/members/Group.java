@@ -24,17 +24,18 @@ public class Group {
     private Context _context;
     // endregion
 
+    // region Constructors
 
     public Group(long id, String name, Context context) {
         this(name, context);
         _id = id;
     }
-
     public Group(String name, Context context) {
         _name = name;
         _context = context;
     }
 
+    // endregion
 
     // region Properties
 

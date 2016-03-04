@@ -1,15 +1,31 @@
 package com.ortosoft.remember;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.database.sqlite.SQLiteException;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ortosoft.remember.db.assets_db.ChainedSQLiteException;
+import com.ortosoft.remember.db.assets_db.RememberSQLHelper;
+
 public class MainActivity extends AppCompatActivity {
+
+
+    public void onClick()
+    {
+        Intent i = new Intent(this, InitialActivity.class);
+        startActivityForResult(i, 1);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +38,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
+
+        // Инициализация базы данных
+        new AppInitializerTask().execute((Void) null);
     }
 
     @Override
@@ -49,4 +67,25 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private class AppInitializerTask extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                RememberSQLHelper.Initialize();
+            } catch (SQLiteException ex) {
+                return false;
+            } catch (ChainedSQLiteException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+        }
+    }
+
 }
