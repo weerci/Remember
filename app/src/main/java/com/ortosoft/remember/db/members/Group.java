@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.design.widget.TabLayout;
 
+import com.ortosoft.remember.App;
 import com.ortosoft.remember.db.Connect;
 import com.ortosoft.remember.db.Tables;
 
@@ -21,18 +22,17 @@ public class Group {
     private long _id = -1;
     private  String _name;
     private ArrayList<Member> _members;
-    private Context _context;
+
     // endregion
 
     // region Constructors
 
-    public Group(long id, String name, Context context) {
-        this(name, context);
+    public Group(long id, String name) {
+        this(name);
         _id = id;
     }
-    public Group(String name, Context context) {
+    public Group(String name) {
         _name = name;
-        _context = context;
     }
 
     // endregion
@@ -83,9 +83,9 @@ public class Group {
     }
 
     // Удаление группы по ее id
-    public static void Delete(int id, Context context)
+    public static void Delete(long id)
     {
-        Connect connect = Connect.Item(context);
+        Connect connect = Connect.Item(App.getContext());
 
         connect.getDb().beginTransaction();
         try {
@@ -109,38 +109,34 @@ public class Group {
     // Обновляет данные о группе
     private void refresh()
     {
-        Group group = FindById(this._id, _context);
-        this._id = group.get_id();
+        Group group = FindById(this._id);
         this._name = group.get_name();
         this._members = group.get_members();
     }
 
-    private long insertMember(Member member)
+    private void insertMember(Member member)
     {
         ContentValues cv = new ContentValues();
         cv.put(Tables.MembersGroups.COLUMN_ID_GROUP, this.get_id());
         cv.put(Tables.MembersGroups.COLUMN_ID_MEMBERS, member.get_id());
 
-        Connect connect = Connect.Item(_context);
+        Connect connect = Connect.Item(App.getContext());
         connect.getDb().beginTransaction();
 
-        long result = 0;
         try {
-            result = connect.getDb().insert(Tables.MembersGroups.TABLE_NAME, null, cv);
+            connect.getDb().insert(Tables.MembersGroups.TABLE_NAME, null, cv);
             connect.getDb().setTransactionSuccessful();
         } finally {
             connect.getDb().endTransaction();
         }
 
-        return result;
     }
 
     private void DeleteMember(Member member)
     {
-        Connect connect = Connect.Item(_context);
+        Connect connect = Connect.Item(App.getContext());
         connect.getDb().beginTransaction();
 
-        connect.getDb().beginTransaction();
         try {
             connect.getDb().delete(Tables.MembersGroups.TABLE_NAME,
                     Tables.MembersGroups.COLUMN_ID_GROUP + " = ? AND " + Tables.MembersGroups.COLUMN_ID_MEMBERS + " = ?",
@@ -157,7 +153,7 @@ public class Group {
         ContentValues cv = new ContentValues();
         cv.put(Tables.Group.COLUMN_NAME, this._name);
 
-        Connect connect = Connect.Item(_context);
+        Connect connect = Connect.Item(App.getContext());
         connect.getDb().beginTransaction();
 
         long result = 0;
@@ -175,7 +171,7 @@ public class Group {
         ContentValues cv=new ContentValues();
         cv.put(Tables.Group.COLUMN_NAME, this._name);
 
-        Connect connect = Connect.Item(_context);
+        Connect connect = Connect.Item(App.getContext());
         connect.getDb().beginTransaction();
         int result;
         try {
@@ -192,9 +188,9 @@ public class Group {
     // region Selectors
 
     // Возвращает все группы из базы данных
-    public static ArrayList<Group> FindAll(Context context)
+    public static ArrayList<Group> FindAll()
     {
-        Connect connect = Connect.Item(context);
+        Connect connect = Connect.Item(App.getContext());
         Cursor mCursor = connect.getDb().query(Tables.Group.TABLE_NAME, null, null, null, null, null, Tables.Group.COLUMN_NAME);
         ArrayList<Group> arr = new ArrayList<>();
 
@@ -204,7 +200,7 @@ public class Group {
                 do {
                     long id = mCursor.getLong(Tables.Group.NUM_COLUMN_ID);
                     String name = mCursor.getString(Tables.Group.NUM_COLUMN_NAME);
-                    arr.add(new Group(id, name, context));
+                    arr.add(new Group(id, name));
                 } while (mCursor.moveToNext());
             }
         } finally {
@@ -214,15 +210,15 @@ public class Group {
     }
 
     // Поиск группы по ее уникльаному идентификатору
-    public static Group FindById(long id, Context context)
+    public static Group FindById(long id)
     {
-        Connect connect = Connect.Item(context);
+        Connect connect = Connect.Item(App.getContext());
         Cursor mCursor = connect.getDb().query(Tables.Group.TABLE_NAME, null, Tables.Group.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}, null, null, Tables.Group.COLUMN_NAME);
         try {
             mCursor.moveToFirst();
             if (!mCursor.isAfterLast()) {
                 String name = mCursor.getString(Tables.Group.NUM_COLUMN_NAME);
-                return new Group(id, name, context);
+                return new Group(id, name);
             } else {
                 return null;
             }
@@ -232,11 +228,11 @@ public class Group {
     }
 
     // Поиск групп по их названию
-    public static ArrayList<Group> FindByName(String name, boolean asLike, Context context )
+    public static ArrayList<Group> FindByName(String name, boolean asLike )
     {
         String likeQuery = Tables.Group.COLUMN_NAME + " like %'" + name + "'%";
         String equalQuery = Tables.Group.COLUMN_NAME + " = " + name + "'";
-        Connect connect = Connect.Item(context);
+        Connect connect = Connect.Item(App.getContext());
         ArrayList<Group> arr = new ArrayList<>();
 
         Cursor cursor = asLike ? connect.getDb().query(Tables.Group.TABLE_NAME, null, likeQuery, null, null, null, Tables.Group.COLUMN_NAME):
@@ -248,7 +244,7 @@ public class Group {
                 do {
                     long id = cursor.getLong(Tables.Group.NUM_COLUMN_ID);
                     String nameReturned = cursor.getString(Tables.Group.NUM_COLUMN_NAME);
-                    arr.add(new Group(id, nameReturned, context));
+                    arr.add(new Group(id, nameReturned));
                 } while (cursor.moveToNext());
                 return arr;
             } else {
