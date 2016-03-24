@@ -27,7 +27,7 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
 
     private static final String LOG_TAG = RememberSQLHelper.class.getName();
 
-    private static final String DB_NAME = "remember.sqlite3";
+    private static final String DB_NAME = "remember.db";
     private static final String DB_FOLDER = "/data/data/"+ App.getInstance().getPackageName() + "/databases/";
     private static final String DB_PATH = DB_FOLDER + DB_NAME;
     private static final String DB_ASSETS_PATH = "db/" + DB_NAME;
@@ -59,7 +59,13 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
             while ((length = inStream.read(buffer)) > 0) {
                 outStream.write(buffer, 0, length);
             }
-        } finally {
+
+        }
+        catch (Exception e)
+        {
+            Log.d("copy", "что то пошло не так");
+        }
+        finally {
             outStream.flush();
             outStream.close();
             inStream.close();
@@ -74,7 +80,12 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
         try {
             checkDB = SQLiteDatabase.openDatabase(DB_PATH, null,SQLiteDatabase.OPEN_READONLY);
             correctVersion = checkDB.getVersion() == DB_VERSION;
-        } finally {
+        }
+        catch (Exception e)
+        {
+            Log.d(e.toString(), "Что то не то");
+        }
+        finally {
             if (checkDB != null)
                 checkDB.close();
         }

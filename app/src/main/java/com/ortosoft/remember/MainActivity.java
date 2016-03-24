@@ -17,15 +17,10 @@ import android.view.MenuItem;
 import com.ortosoft.remember.db.assets_db.ChainedSQLiteException;
 import com.ortosoft.remember.db.assets_db.RememberSQLHelper;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
-
-    public void onClick()
-    {
-        Intent i = new Intent(this, InitialActivity.class);
-        startActivityForResult(i, 1);
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +69,12 @@ public class MainActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             try {
                 RememberSQLHelper.Initialize();
+                Log.d("It's ok", "really, really");
             } catch (SQLiteException ex) {
-                return false;
+                ex.printStackTrace();
             } catch (ChainedSQLiteException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return true;
