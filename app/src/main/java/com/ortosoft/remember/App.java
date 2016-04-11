@@ -7,6 +7,7 @@ import android.content.Context;
  * Created by dima on 03.03.2016.
  */
 public class App extends Application {
+
     private static App _instance;
     private static Context _context;
 

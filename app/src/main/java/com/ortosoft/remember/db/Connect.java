@@ -4,6 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.ortosoft.remember.App;
+import com.ortosoft.remember.db.assets_db.RememberSQLHelper;
+
 import java.util.ArrayList;
 
 /**
@@ -13,57 +16,22 @@ import java.util.ArrayList;
 public class Connect {
 
     // region Fields
+
     private static SQLiteDatabase mDataBase;
     private static Connect mConnect;
-    private Context mContext;
-
-    private Connect(Context context )
-    {
-        OpenHelper mOpenHelper = new OpenHelper(context);
-        mDataBase = mOpenHelper.getWritableDatabase();
-        mContext = context;
-    }
-
-    private class OpenHelper extends SQLiteOpenHelper {
-        // Данные базы данных и таблиц
-        private ArrayList<String> mQueries = new ArrayList<>();
-
-        private OpenHelper(Context context) {
-            super(context, Tables.DB_NAME, null, Tables.VERSION);
-
-            mQueries.add(Tables.CREATE_GROUP);
-            mQueries.add(Tables.CREATE_MEMBERS);
-            mQueries.add(Tables.CREATE_MEMBERS_GROUP);
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            db.beginTransaction();
-            try {
-                for (String s : mQueries) {
-                    db.execSQL(s);
-                }
-                db.setTransactionSuccessful();
-            } finally {
-                db.endTransaction();
-            }
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        }
-    }
 
     // endregion
 
-    public Context getContext() {
-        return mContext;
+    private Connect()
+    {
+        RememberSQLHelper mOpenHelper = new RememberSQLHelper();
+        mDataBase = mOpenHelper.getWritableDatabase();
     }
 
     // Статический конструктор для класса
-    public static Connect Item(Context context){
+    public static Connect Item(){
         if (mConnect == null) {
-            mConnect = new Connect(context);
+            mConnect = new Connect();
         }
         return  mConnect;
     }
@@ -71,6 +39,5 @@ public class Connect {
     public static SQLiteDatabase getDb() {
         return mDataBase;
     }
-
 
 }

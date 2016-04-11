@@ -37,8 +37,8 @@ public class Member {
     }
 
     // Устанавливает имя человека
-    public void set_name(String _name) {
-        this._name = _name;
+    public void set_name(String name) {
+        _name = name;
     }
 
     // Возвращает пояснение к имени человека
@@ -47,8 +47,8 @@ public class Member {
     }
 
     // Устанавливает пояснение к имени человека
-    public void set_comment(String _comment) {
-        this._comment = _comment;
+    public void set_comment(String comment) {
+        _comment = comment;
     }
 
     // Возвращает признак того, умер человек или нет
@@ -57,8 +57,8 @@ public class Member {
     }
 
     // Устанавливает признак того, умер человек или нет
-    public void set_isDead(IsDead _idDead) {
-        this._isDead = _idDead;
+    public void set_isDead(IsDead idDead) {
+        _isDead = idDead;
     }
 
     // Возвращает признак того, крещен человек или нет
@@ -67,8 +67,8 @@ public class Member {
     }
 
     // Устанавливает признак того, крещен человек или нет
-    public void set_baptized(IsBaptized _baptized) {
-        this._baptized = _baptized;
+    public void set_baptized(IsBaptized baptized) {
+        _baptized = baptized;
     }
 
     // Возвращает список всех групп, в которых состоит человек
@@ -117,7 +117,7 @@ public class Member {
 
     // Удаление человека по его идентификатору в базе данных
     public static void Del(long id) {
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
 
         connect.getDb().beginTransaction();
         try {
@@ -136,7 +136,6 @@ public class Member {
 
     // endregion
 
-
     // region insert, update, delete, refresh
 
     private void refresh() {
@@ -154,7 +153,7 @@ public class Member {
         cv.put(Tables.Member.COLUMN_DEAD, Tables.IsDeadToInt(this._isDead));
         cv.put(Tables.Member.COLUMN_BAPTIZED, Tables.BaptizedToInt(this._baptized));
 
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
         connect.getDb().beginTransaction();
 
         long result = 0;
@@ -174,7 +173,7 @@ public class Member {
         cv.put(Tables.Member.COLUMN_DEAD, Tables.IsDeadToInt(this._isDead));
         cv.put(Tables.Member.COLUMN_BAPTIZED, Tables.BaptizedToInt(this._baptized));
 
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
         connect.getDb().beginTransaction();
         int result;
         try {
@@ -192,7 +191,7 @@ public class Member {
         cv.put(Tables.MembersGroups.COLUMN_ID_MEMBERS, this.get_id());
         cv.put(Tables.MembersGroups.COLUMN_ID_GROUP, group.get_id());
 
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
         connect.getDb().beginTransaction();
 
         try {
@@ -204,7 +203,7 @@ public class Member {
     }
 
     private void removeFromGroup(Group group) {
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
         connect.getDb().beginTransaction();
         try {
             connect.getDb().delete(Tables.MembersGroups.TABLE_NAME,
@@ -223,7 +222,7 @@ public class Member {
     // Возвращает всех людей из базы данных
     public static ArrayList<Member> FindAll()
     {
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
         Cursor mCursor = connect.getDb().query(Tables.Member.TABLE_NAME, null, null, null, null, null, Tables.Member.COLUMN_NAME);
         ArrayList<Member> arr = new ArrayList<>();
 
@@ -247,7 +246,7 @@ public class Member {
 
     public static Member FindById(long id)
     {
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
         Cursor mCursor = connect.getDb().query(Tables.Member.TABLE_NAME, null, Tables.Member.COLUMN_ID + " = ?",
                 new String[]{String.valueOf(id)}, null, null, Tables.Member.COLUMN_NAME);
         try {

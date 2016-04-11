@@ -85,7 +85,7 @@ public class Group {
     // Удаление группы по ее id
     public static void Delete(long id)
     {
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
 
         connect.getDb().beginTransaction();
         try {
@@ -120,7 +120,7 @@ public class Group {
         cv.put(Tables.MembersGroups.COLUMN_ID_GROUP, this.get_id());
         cv.put(Tables.MembersGroups.COLUMN_ID_MEMBERS, member.get_id());
 
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
         connect.getDb().beginTransaction();
 
         try {
@@ -134,7 +134,7 @@ public class Group {
 
     private void DeleteMember(Member member)
     {
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
         connect.getDb().beginTransaction();
 
         try {
@@ -153,7 +153,7 @@ public class Group {
         ContentValues cv = new ContentValues();
         cv.put(Tables.Group.COLUMN_NAME, this._name);
 
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
         connect.getDb().beginTransaction();
 
         long result = 0;
@@ -171,7 +171,7 @@ public class Group {
         ContentValues cv=new ContentValues();
         cv.put(Tables.Group.COLUMN_NAME, this._name);
 
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
         connect.getDb().beginTransaction();
         int result;
         try {
@@ -190,7 +190,7 @@ public class Group {
     // Возвращает все группы из базы данных
     public static ArrayList<Group> FindAll()
     {
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
         Cursor mCursor = connect.getDb().query(Tables.Group.TABLE_NAME, null, null, null, null, null, Tables.Group.COLUMN_NAME);
         ArrayList<Group> arr = new ArrayList<>();
 
@@ -212,7 +212,7 @@ public class Group {
     // Поиск группы по ее уникльаному идентификатору
     public static Group FindById(long id)
     {
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
         Cursor mCursor = connect.getDb().query(Tables.Group.TABLE_NAME, null, Tables.Group.COLUMN_ID + " = ?", new String[]{String.valueOf(id)}, null, null, Tables.Group.COLUMN_NAME);
         try {
             mCursor.moveToFirst();
@@ -232,7 +232,7 @@ public class Group {
     {
         String likeQuery = Tables.Group.COLUMN_NAME + " like %'" + name + "'%";
         String equalQuery = Tables.Group.COLUMN_NAME + " = " + name + "'";
-        Connect connect = Connect.Item(App.getContext());
+        Connect connect = Connect.Item();
         ArrayList<Group> arr = new ArrayList<>();
 
         Cursor cursor = asLike ? connect.getDb().query(Tables.Group.TABLE_NAME, null, likeQuery, null, null, null, Tables.Group.COLUMN_NAME):

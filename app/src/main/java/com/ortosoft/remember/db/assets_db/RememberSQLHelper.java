@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.ortosoft.remember.App;
+import com.ortosoft.remember.db.Tables;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -25,21 +27,21 @@ import java.io.OutputStream;
  */
 public class RememberSQLHelper extends SQLiteOpenHelper {
 
+    //region static fields
     private static final String LOG_TAG = RememberSQLHelper.class.getName();
-
     private static final String DB_NAME = "remember.db";
     private static final String DB_FOLDER = "/data/data/"+ App.getInstance().getPackageName() + "/databases/";
     private static final String DB_PATH = DB_FOLDER + DB_NAME;
     private static final String DB_ASSETS_PATH = "db/" + DB_NAME;
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 3;
     private static final int DB_FILES_COPY_BUFFER_SIZE = 8192;
+    //endregion
 
     public static void Initialize() throws ChainedSQLiteException, IOException {
         if (isInitialized() == false) {
             copyInialDBfromAssets();
         }
     }
-
     private static void copyInialDBfromAssets() throws IOException {
 
         Context appContext = App.getInstance().getApplicationContext();
@@ -59,7 +61,6 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
             while ((length = inStream.read(buffer)) > 0) {
                 outStream.write(buffer, 0, length);
             }
-
         }
         catch (Exception e)
         {
@@ -71,14 +72,13 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
             inStream.close();
         }
     }
-
     private static boolean isInitialized() {
 
         SQLiteDatabase checkDB = null;
         Boolean correctVersion = false;
 
         try {
-            checkDB = SQLiteDatabase.openDatabase(DB_PATH, null,SQLiteDatabase.OPEN_READONLY);
+            checkDB = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY);
             correctVersion = checkDB.getVersion() == DB_VERSION;
         }
         catch (Exception e)
@@ -93,25 +93,20 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
         return checkDB != null && correctVersion;
     }
 
-    public RememberSQLHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public RememberSQLHelper() {
+        super(App.getContext(), DB_NAME, null, DB_VERSION);
     }
-
-    public RememberSQLHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version, DatabaseErrorHandler errorHandler) {
-        super(context, name, factory, version, errorHandler);
-    }
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         throw new SQLiteException(
-                "Call OlimpicRaceSQLhelper.Initialize first. This method should never be called.");
+                "База данных не инициализированна!!! Этот метод не должен никогда вызываться!!!");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         throw new SQLiteException(
-                "Call OlimpicRaceSQLhelper.Initialize first. This method should never be called.");
+                "База данных не инициализированна!!! Этот метод не должен никогда вызываться!!!");
     }
 
 }

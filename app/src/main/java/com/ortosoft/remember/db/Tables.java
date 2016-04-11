@@ -1,5 +1,8 @@
 package com.ortosoft.remember.db;
 
+import android.text.Spannable;
+import android.text.Spanned;
+
 import com.ortosoft.remember.db.members.IsBaptized;
 import com.ortosoft.remember.db.members.IsDead;
 
@@ -11,12 +14,12 @@ public class Tables {
 
     // region Создание таблиц
 
-    public static final String DB_NAME = "remember.db";
-    public static final String CREATE_GROUP = "CREATE TABLE groups (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL); ";
-    public static final String CREATE_MEMBERS = "CREATE TABLE members (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, comment TEXT, is_dead INTEGER, baptized INTEGER); ";
-    public static final String CREATE_MEMBERS_GROUP = "CREATE TABLE members_groups (id_members INTEGER REFERENCES members (id), id_group INTEGER REFERENCES groups (id), PRIMARY KEY (id_members ASC, id_group ASC)); ";
+//    public static final String DB_NAME = "remember.db";
+//    public static final String CREATE_GROUP = "CREATE TABLE groups (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL); ";
+//    public static final String CREATE_MEMBERS = "CREATE TABLE members (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, comment TEXT, is_dead INTEGER, baptized INTEGER); ";
+//    public static final String CREATE_MEMBERS_GROUP = "CREATE TABLE members_groups (id_members INTEGER REFERENCES members (id), id_group INTEGER REFERENCES groups (id), PRIMARY KEY (id_members ASC, id_group ASC)); ";
 
-    public static int VERSION = 1;
+//    public static int VERSION = 1;
 
     // endregion
 
@@ -26,7 +29,7 @@ public class Tables {
         public static final String TABLE_NAME = "groups";
 
         // Название столбцов
-        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_ID = "_id";
         public static final String COLUMN_NAME = "name";
 
         // Номера столбцов
@@ -42,7 +45,7 @@ public class Tables {
         public static final String TABLE_NAME = "members";
 
         // Название столбцов
-        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_ID = "_id";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_COMMENT = "comment";
         public static final String COLUMN_DEAD = "is_dead";
@@ -55,6 +58,25 @@ public class Tables {
         public static final int NUM_COLUMN_DEAD = 3;
         public static final int NUM_COLUMN_BAPTIZED = 4;
 
+    }
+    // endregion
+
+    // region Описание таблицы PRAYAERS
+    public static class Prayer {
+        // Название таблицы
+        public static final String TABLE_NAME = "prayers";
+
+        // Название столбцов
+        public static final String COLUMN_ID = "_id";
+        public static final String COLUMN_NAME = "name";
+        public static final String COLUMN_BODY = "body";
+        public static final String COLUMN_COMMENT = "comment";
+
+        // Номера столбцов
+        public static final int NUM_COLUMN_ID = 0;
+        public static final int NUM_COLUMN_NAME = 1;
+        public static final int NUM_COLUMN_BODY = 2;
+        public static final int NUM_COLUMN_COMMENT = 3;
     }
     // endregion
 
@@ -119,4 +141,15 @@ public class Tables {
 
     // endregion
 
+    public static Spannable revertSpanned(Spanned stext) {
+        Object[] spans = stext.getSpans(0, stext.length(), Object.class);
+        Spannable ret = Spannable.Factory.getInstance().newSpannable(stext.toString());
+        if (spans != null && spans.length > 0) {
+            for(int i = spans.length - 1; i >= 0; --i) {
+                ret.setSpan(spans[i], stext.getSpanStart(spans[i]), stext.getSpanEnd(spans[i]), stext.getSpanFlags(spans[i]));
+            }
+        }
+
+        return ret;
+    }
 }
