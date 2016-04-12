@@ -1,0 +1,134 @@
+<XMLDiagram>
+  <TDBADiagramController Locked="0">
+    <Elements>
+      <TDBADiagramObject id="1" propertiesclass="TDiagramMetaTableProperties" objectname="groups">
+        <TDiagramMetaTableProperties>
+          <Glyph>
+            <Geometry left="900" top="140" width="200" height="69"/>
+          </Glyph>
+        </TDiagramMetaTableProperties>
+      </TDBADiagramObject>
+      <TDBADiagramObject id="2" propertiesclass="TDiagramMetaTableProperties" objectname="members">
+        <TDiagramMetaTableProperties>
+          <Glyph>
+            <Geometry left="160" top="160" width="200" height="111"/>
+          </Glyph>
+        </TDiagramMetaTableProperties>
+      </TDBADiagramObject>
+      <TDBADiagramObject id="3" propertiesclass="TDiagramMetaTableProperties" objectname="members_groups">
+        <TDiagramMetaTableProperties>
+          <Glyph>
+            <Geometry left="590" top="50" width="200" height="66"/>
+          </Glyph>
+        </TDiagramMetaTableProperties>
+      </TDBADiagramObject>
+      <TDBADiagramObject id="4" propertiesclass="TDiagramForeignKeyProperties" objectname="members_groups.Foreign_key01">
+        <TDiagramForeignKeyProperties>
+          <Relation>
+            <Geometry left="64" top="64" width="200" height="100"/>
+            <Glyph>
+              <Geometry>
+                <Point x="690" y="83"/>
+                <Point x="1000" y="170"/>
+              </Geometry>
+            </Glyph>
+          </Relation>
+        </TDiagramForeignKeyProperties>
+      </TDBADiagramObject>
+      <TDBADiagramObject id="5" propertiesclass="TDiagramForeignKeyProperties" objectname="members_groups.Foreign_key02">
+        <TDiagramForeignKeyProperties>
+          <Relation>
+            <Geometry left="80" top="80" width="200" height="100"/>
+            <Glyph>
+              <Geometry>
+                <Point x="690" y="83"/>
+                <Point x="260" y="220"/>
+              </Geometry>
+            </Glyph>
+          </Relation>
+        </TDiagramForeignKeyProperties>
+      </TDBADiagramObject>
+      <TDBADiagramObject id="6" propertiesclass="TDiagramMetaTableProperties" objectname="prayers">
+        <TDiagramMetaTableProperties>
+          <Glyph>
+            <Geometry left="760" top="440" width="200" height="80"/>
+          </Glyph>
+        </TDiagramMetaTableProperties>
+      </TDBADiagramObject>
+      <TDBADiagramObject id="7" propertiesclass="TDiagramMetaTableProperties" objectname="prayers_worships">
+        <TDiagramMetaTableProperties>
+          <Glyph>
+            <Geometry left="460" top="630" width="200" height="83"/>
+          </Glyph>
+        </TDiagramMetaTableProperties>
+      </TDBADiagramObject>
+      <TDBADiagramObject id="8" propertiesclass="TDiagramForeignKeyProperties" objectname="prayers_worships.Foreign_key02">
+        <TDiagramForeignKeyProperties>
+          <Relation>
+            <Geometry left="128" top="128" width="200" height="100"/>
+            <Glyph>
+              <Geometry>
+                <Point x="560" y="671"/>
+                <Point x="860" y="480"/>
+              </Geometry>
+            </Glyph>
+          </Relation>
+        </TDiagramForeignKeyProperties>
+      </TDBADiagramObject>
+      <TDBADiagramObject id="9" propertiesclass="TDiagramMetaTableProperties" objectname="worships">
+        <TDiagramMetaTableProperties>
+          <Glyph>
+            <Geometry left="200" top="450" width="200" height="83"/>
+          </Glyph>
+        </TDiagramMetaTableProperties>
+      </TDBADiagramObject>
+      <TDBADiagramObject id="10" propertiesclass="TDiagramForeignKeyProperties" objectname="prayers_worships.Foreign_key01">
+        <TDiagramForeignKeyProperties>
+          <Relation>
+            <Geometry left="160" top="160" width="200" height="100"/>
+            <Glyph>
+              <Geometry>
+                <Point x="560" y="670"/>
+                <Point x="300" y="491"/>
+              </Geometry>
+            </Glyph>
+          </Relation>
+        </TDiagramForeignKeyProperties>
+      </TDBADiagramObject>
+      <TDBADiagramObject id="11" propertiesclass="TDiagramMetaTableProperties" objectname="worships_members">
+        <TDiagramMetaTableProperties>
+          <Glyph>
+            <Geometry left="500" top="300" width="200" height="66"/>
+          </Glyph>
+        </TDiagramMetaTableProperties>
+      </TDBADiagramObject>
+      <TDBADiagramObject id="12" propertiesclass="TDiagramForeignKeyProperties" objectname="worships_members.Foreign_key01">
+        <TDiagramForeignKeyProperties>
+          <Relation>
+            <Geometry left="192" top="192" width="200" height="100"/>
+            <Glyph>
+              <Geometry>
+                <Point x="600" y="333"/>
+                <Point x="260" y="220"/>
+              </Geometry>
+            </Glyph>
+          </Relation>
+        </TDiagramForeignKeyProperties>
+      </TDBADiagramObject>
+      <TDBADiagramObject id="13" propertiesclass="TDiagramForeignKeyProperties" objectname="worships_members.Foreign_key02">
+        <TDiagramForeignKeyProperties>
+          <Relation>
+            <Geometry left="208" top="208" width="200" height="100"/>
+            <Glyph>
+              <Geometry>
+                <Point x="600" y="333"/>
+                <Point x="300" y="490"/>
+              </Geometry>
+            </Glyph>
+          </Relation>
+        </TDiagramForeignKeyProperties>
+      </TDBADiagramObject>
+    </Elements>
+    <Surface zoom="100" scrollx="0" scrolly="0"/>
+  </TDBADiagramController>
+</XMLDiagram>

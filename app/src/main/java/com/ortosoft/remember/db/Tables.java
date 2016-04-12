@@ -98,6 +98,24 @@ public class Tables {
 
     // endregion
 
+    // region Описание таблицы WORSHIPS_MEMBERS
+
+    public static class WorshipsMembers {
+        // Название таблицы
+        public static final String TABLE_NAME = "worships_members";
+
+        // Название столбцов
+        public static final String COLUMN_ID_MEMBER = "id_worship";
+        public static final String COLUMN_ID_GROUP = "id_member";
+
+        // Номера столбцов
+        public static final int NUM_COLUMN_ID_WORSHIP = 0;
+        public static final int NUM_COLUMN_ID_MEMBER = 1;
+
+    }
+
+    // endregion
+
     // region Преобразование перечислений IsDead и Baptized
 
     public static int BaptizedToInt(IsBaptized isBaptized)
@@ -141,15 +159,32 @@ public class Tables {
 
     // endregion
 
-    public static Spannable revertSpanned(Spanned stext) {
-        Object[] spans = stext.getSpans(0, stext.length(), Object.class);
-        Spannable ret = Spannable.Factory.getInstance().newSpannable(stext.toString());
-        if (spans != null && spans.length > 0) {
-            for(int i = spans.length - 1; i >= 0; --i) {
-                ret.setSpan(spans[i], stext.getSpanStart(spans[i]), stext.getSpanEnd(spans[i]), stext.getSpanFlags(spans[i]));
-            }
+    // Класс представляет пару занчений id для представления таблиц-связок
+    public static class Pair
+    {
+        private long _id1;
+        private long _id2;
+
+        public long get_id1() {
+            return _id1;
         }
 
-        return ret;
+        public void set_id1(long _id1) {
+            this._id1 = _id1;
+        }
+
+        public long get_id2() {
+            return _id2;
+        }
+
+        public void set_id2(long _id2) {
+            this._id2 = _id2;
+        }
+
+        public Pair(long id1, long id2)
+        {
+            _id1 = id1;
+            _id2 = id2;
+        }
     }
 }

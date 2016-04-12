@@ -6,6 +6,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.Spanned;
 
+import com.ortosoft.remember.RoutineFunction;
 import com.ortosoft.remember.db.Connect;
 import com.ortosoft.remember.db.Tables;
 
@@ -45,7 +46,7 @@ public class Prayer {
         public Spannable get_bodySpannable()
         {
             Spanned spannedText = Html.fromHtml(_body);
-            return Tables.revertSpanned(spannedText);
+            return RoutineFunction.revertSpanned(spannedText);
         }
 
 

@@ -36,7 +36,7 @@ public class Connect {
         return  mConnect;
     }
 
-    public static SQLiteDatabase getDb() {
+    public SQLiteDatabase getDb() {
         return mDataBase;
     }
 

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.ortosoft.remember.App;
+import com.ortosoft.remember.db.Recovery;
 import com.ortosoft.remember.db.Tables;
 
 import java.io.BufferedInputStream;
@@ -33,7 +34,7 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
     private static final String DB_FOLDER = "/data/data/"+ App.getInstance().getPackageName() + "/databases/";
     private static final String DB_PATH = DB_FOLDER + DB_NAME;
     private static final String DB_ASSETS_PATH = "db/" + DB_NAME;
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 1;
     private static final int DB_FILES_COPY_BUFFER_SIZE = 8192;
     //endregion
 
@@ -100,13 +101,13 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         throw new SQLiteException(
-                "База данных не инициализированна!!! Этот метод не должен никогда вызываться!!!");
+                "Метод onCreate для базы. Этот метод не должен никогда вызываться!!!");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         throw new SQLiteException(
-                "База данных не инициализированна!!! Этот метод не должен никогда вызываться!!!");
+                "Метод onUpgrade для базы. Этот метод не должен никогда вызываться!!!");
     }
 
 }
