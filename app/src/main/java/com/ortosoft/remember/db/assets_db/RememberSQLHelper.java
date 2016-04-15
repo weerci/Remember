@@ -29,7 +29,6 @@ import java.io.OutputStream;
 public class RememberSQLHelper extends SQLiteOpenHelper {
 
     //region static fields
-    private static final String LOG_TAG = RememberSQLHelper.class.getName();
     private static final String DB_NAME = "remember.db";
     private static final String DB_FOLDER = "/data/data/"+ App.getInstance().getPackageName() + "/databases/";
     private static final String DB_PATH = DB_FOLDER + DB_NAME;
@@ -38,12 +37,30 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
     private static final int DB_FILES_COPY_BUFFER_SIZE = 8192;
     //endregion
 
+    // region Fields
+
+    private static boolean _dbExist = false;
+    private static boolean _versionIsCorrect = false;
+
+    // endregion
+
     public static void Initialize() throws ChainedSQLiteException, IOException {
-        if (isInitialized() == false) {
-            copyInialDBfromAssets();
+        checkDb();
+        if (!_dbExist){
+            copyDbFromAssets();
+        } else if(_dbExist && !_versionIsCorrect)
+        {
+            Recovery.UploadDataToFiles();
+            copyDbFromAssets();
+            Recovery.SaveFilesToBase();
         }
     }
-    private static void copyInialDBfromAssets() throws IOException {
+
+    public RememberSQLHelper() {
+        super(App.getContext(), DB_NAME, null, DB_VERSION);
+    }
+
+    private static void copyDbFromAssets() throws IOException {
 
         Context appContext = App.getInstance().getApplicationContext();
         InputStream inStream = null;
@@ -73,29 +90,25 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
             inStream.close();
         }
     }
-    private static boolean isInitialized() {
-
+    private static void checkDb() {
         SQLiteDatabase checkDB = null;
-        Boolean correctVersion = false;
-
         try {
-            checkDB = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY);
-            correctVersion = checkDB.getVersion() == DB_VERSION;
+            File dbFile = App.getContext().getDatabasePath(DB_NAME);
+            _dbExist = dbFile.exists();
+            if (_dbExist) {
+                checkDB = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY);
+                boolean correctVersion = checkDB.getVersion() == DB_VERSION;
+                _versionIsCorrect =  checkDB != null && correctVersion;
+            }
         }
         catch (Exception e)
         {
-            Log.d(e.toString(), "Что то не то");
+            e.printStackTrace();
         }
         finally {
             if (checkDB != null)
                 checkDB.close();
         }
-
-        return checkDB != null && correctVersion;
-    }
-
-    public RememberSQLHelper() {
-        super(App.getContext(), DB_NAME, null, DB_VERSION);
     }
 
     @Override

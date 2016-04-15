@@ -23,15 +23,15 @@ public class Recovery {
 
     // region Fields
 
-    private ArrayList<Member> _members;
-    private ArrayList<Group> _groups;
-    private ArrayList<Tables.Pair> _members_groups;
-    private ArrayList<Tables.Pair> _worships_members;
+    private static ArrayList<Member> _members;
+    private static ArrayList<Group> _groups;
+    private static ArrayList<Tables.Pair> _members_groups;
+    private static ArrayList<Tables.Pair> _worships_members;
 
     // endregion
 
     // Сохраняет данные из полей класса в базе данных
-    public void LoadFilesToBase() {
+    public static void  SaveFilesToBase() {
 
         Connect.Item().getDb().beginTransaction();
 
@@ -67,7 +67,7 @@ public class Recovery {
     }
 
     // Сохраняет во внутреннем хранилище скрипты таблиц members, groups, members_groups, worship_members
-    public void UploadDataToFiles() {
+    public static void UploadDataToFiles() {
 
         fillArrays();
 
@@ -94,15 +94,14 @@ public class Recovery {
 
     // region Helper
 
-    private void fillArrays() {
+    private static void fillArrays() {
         _members = Member.FindAll();
         _groups = Group.FindAll();
         _members_groups = FindAll(Tables.MembersGroups.TABLE_NAME);
         _worships_members = FindAll(Tables.WorshipsMembers.TABLE_NAME);
     }
 
-
-    private String scriptForMembers() {
+    private static String scriptForMembers() {
         if (_members == null ||  _members.isEmpty())
             return null;
 
@@ -119,7 +118,7 @@ public class Recovery {
         return sb.toString();
     }
 
-    private String scriptForGroups() {
+    private static String scriptForGroups() {
         if (_groups == null || _groups.isEmpty())
             return null;
 
@@ -136,7 +135,7 @@ public class Recovery {
         return sb.toString();
     }
 
-    private String scriptForMembersGroups() {
+    private static String scriptForMembersGroups() {
         if (_members_groups == null || _members_groups.isEmpty())
             return null;
 
@@ -153,7 +152,7 @@ public class Recovery {
         return sb.toString();
     }
 
-    private String scriptForWorshipsMembers() {
+    private static String scriptForWorshipsMembers() {
         if (_worships_members == null || _worships_members.isEmpty())
             return null;
 
@@ -170,7 +169,7 @@ public class Recovery {
         return sb.toString();
     }
 
-    private ArrayList<Tables.Pair> FindAll(String tableName) {
+    private static ArrayList<Tables.Pair> FindAll(String tableName) {
         Cursor mCursor = Connect.Item().getDb().query(tableName, null, null, null, null, null, null);
         ArrayList<Tables.Pair> arr = new ArrayList<>();
 
