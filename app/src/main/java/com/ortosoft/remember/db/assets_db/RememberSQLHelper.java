@@ -31,9 +31,9 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
     //region static fields
     private static final String DB_NAME = "remember.db";
     private static final String DB_FOLDER = "/data/data/"+ App.getInstance().getPackageName() + "/databases/";
-    private static final String DB_PATH = DB_FOLDER + DB_NAME;
+    public static final String DB_PATH = DB_FOLDER + DB_NAME;
     private static final String DB_ASSETS_PATH = "db/" + DB_NAME;
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 3;
     private static final int DB_FILES_COPY_BUFFER_SIZE = 8192;
     //endregion
 
@@ -45,6 +45,7 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
     // endregion
 
     public static void Initialize() throws ChainedSQLiteException, IOException {
+//        Recovery.UploadDataToFiles();
         checkDb();
         if (!_dbExist){
             copyDbFromAssets();
@@ -97,8 +98,7 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
             _dbExist = dbFile.exists();
             if (_dbExist) {
                 checkDB = SQLiteDatabase.openDatabase(DB_PATH, null, SQLiteDatabase.OPEN_READONLY);
-                boolean correctVersion = checkDB.getVersion() == DB_VERSION;
-                _versionIsCorrect =  checkDB != null && correctVersion;
+                _versionIsCorrect = checkDB.getVersion() == DB_VERSION;
             }
         }
         catch (Exception e)

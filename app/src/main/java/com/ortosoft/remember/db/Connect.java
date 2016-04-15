@@ -24,8 +24,9 @@ public class Connect {
 
     private Connect()
     {
-        RememberSQLHelper mOpenHelper = new RememberSQLHelper();
-        mDataBase = mOpenHelper.getWritableDatabase();
+        mDataBase = SQLiteDatabase.openDatabase(RememberSQLHelper.DB_PATH, null, SQLiteDatabase.OPEN_READWRITE);
+//        RememberSQLHelper mOpenHelper = new RememberSQLHelper();
+//        mDataBase = mOpenHelper.getWritableDatabase();
     }
 
     // Статический конструктор для класса

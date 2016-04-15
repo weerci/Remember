@@ -1,6 +1,7 @@
 package com.ortosoft.remember.db;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.ortosoft.remember.RoutineFunction;
 import com.ortosoft.remember.db.members.Group;
@@ -31,38 +32,45 @@ public class Recovery {
     // endregion
 
     // Сохраняет данные из полей класса в базе данных
-    public static void  SaveFilesToBase() {
+    public static void SaveFilesToBase() {
 
-        Connect.Item().getDb().beginTransaction();
+        SQLiteDatabase sd = Connect.Item().getDb();
+
+        sd.beginTransaction();
+
+        sd.delete(Tables.WorshipsMembers.TABLE_NAME, null, null);
+        sd.delete(Tables.MembersGroups.TABLE_NAME, null, null);
+        sd.delete(Tables.Member.TABLE_NAME, null, null);
+        sd.delete(Tables.Group.TABLE_NAME, null, null);
 
         try {
 
             String scriptForMembers = RoutineFunction.LoadFromInternalStorage(FILE_MEMBERS);
             if (!scriptForMembers.isEmpty()) {
-                Connect.Item().getDb().execSQL(scriptForMembers);
+                sd.execSQL(scriptForMembers);
             }
 
             String scriptForGroups = RoutineFunction.LoadFromInternalStorage(FILE_GROUPS);
             if (!scriptForGroups.isEmpty()) {
-                Connect.Item().getDb().execSQL(scriptForGroups);
+                sd.execSQL(scriptForGroups);
             }
 
             String scriptForMembersGroups = RoutineFunction.LoadFromInternalStorage(FILE_MEMBERS_GROUPS);
             if (!scriptForMembersGroups.isEmpty()) {
-                Connect.Item().getDb().execSQL(scriptForMembersGroups);
+                sd.execSQL(scriptForMembersGroups);
             }
 
             String scriptForWorshipsMembers = RoutineFunction.LoadFromInternalStorage(FILE_WORSHIPS_MEMBERS);
             if (!scriptForWorshipsMembers.isEmpty()) {
-                Connect.Item().getDb().execSQL(scriptForWorshipsMembers);
+                sd.execSQL(scriptForWorshipsMembers);
             }
 
-            Connect.Item().getDb().setTransactionSuccessful();
+            sd.setTransactionSuccessful();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }finally {
-            Connect.Item().getDb().endTransaction();
+        } finally {
+            sd.endTransaction();
         }
     }
 
@@ -102,18 +110,15 @@ public class Recovery {
     }
 
     private static String scriptForMembers() {
-        if (_members == null ||  _members.isEmpty())
+        if (_members == null || _members.isEmpty())
             return null;
 
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO members (_id, name, comment, is_dead, baptized) VALUES ");
 
-        String prefix = "";
-        for (Member m : _members) {
-            sb.append(prefix);
-            prefix = ",";
-            sb.append(String.format("(?, '?', '?', ?, ?), ", m.get_id(), m.get_name(), m.get_comment(), m.get_isDead(), m.get_baptized()));
-        }
+        for (Member m : _members)
+            sb.append(String.format("(%d, '%s', '%s', %d, %d),", m.get_id(), m.get_name(), m.get_comment(), Tables.IsDeadToInt(m.get_isDead()), Tables.BaptizedToInt(m.get_baptized())));
+        sb.deleteCharAt(sb.length() - 1);
 
         return sb.toString();
     }
@@ -125,12 +130,10 @@ public class Recovery {
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO groups (_id, name) VALUES ");
 
-        String prefix = "";
-        for (Group g : _groups) {
-            sb.append(prefix);
-            prefix = ",";
-            sb.append(String.format("(?, '?'),", g.get_id(), g.get_name()));
-        }
+        for (Group g : _groups)
+            sb.append(String.format("(%d, '%s'),", g.get_id(), g.get_name()));
+
+        sb.deleteCharAt(sb.length() - 1);
 
         return sb.toString();
     }
@@ -142,12 +145,10 @@ public class Recovery {
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO members_groups (id_members, id_groups) VALUES ");
 
-        String prefix = "";
-        for (Tables.Pair p : _members_groups) {
-            sb.append(prefix);
-            prefix = ",";
-            sb.append(String.format("(?, ?),", p.get_id1(), p.get_id2()));
-        }
+        for (Tables.Pair p : _members_groups)
+            sb.append(String.format("(%d, %d),", p.get_id1(), p.get_id2()));
+
+        sb.deleteCharAt(sb.length() - 1);
 
         return sb.toString();
     }
@@ -163,7 +164,7 @@ public class Recovery {
         for (Tables.Pair p : _worships_members) {
             sb.append(prefix);
             prefix = ",";
-            sb.append(String.format("(?, ?),", p.get_id1(), p.get_id2()));
+            sb.append(String.format("(%d, %d),", p.get_id1(), p.get_id2()));
         }
 
         return sb.toString();
