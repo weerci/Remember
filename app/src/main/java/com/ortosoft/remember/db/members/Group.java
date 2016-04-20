@@ -9,13 +9,14 @@ import com.ortosoft.remember.App;
 import com.ortosoft.remember.db.Connect;
 import com.ortosoft.remember.db.Tables;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by dima on 29.02.2016.
  * Класс реализует функционал групп объединяющих людей (семья, работа и пр.)
  */
-public class Group {
+public class Group implements Serializable {
 
     // region Fields
 

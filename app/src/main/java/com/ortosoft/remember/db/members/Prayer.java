@@ -10,13 +10,14 @@ import com.ortosoft.remember.RoutineFunction;
 import com.ortosoft.remember.db.Connect;
 import com.ortosoft.remember.db.Tables;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by dima on 11.04.2016.
  * Реализует функционал работы с молитвами
  */
-public class Prayer {
+public class Prayer implements Serializable {
 
         // region Fields and Properties
 

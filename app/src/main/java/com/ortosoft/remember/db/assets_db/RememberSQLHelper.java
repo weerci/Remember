@@ -51,9 +51,11 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
             copyDbFromAssets();
         } else if(_dbExist && !_versionIsCorrect)
         {
-            Recovery.UploadDataToFiles();
+            Log.d("Start recovery", "Start recovery");
+            Recovery recovery = new Recovery();
+            recovery.LoadFromBase();
             copyDbFromAssets();
-            Recovery.SaveFilesToBase();
+            recovery.SaveToBase();
         }
     }
 

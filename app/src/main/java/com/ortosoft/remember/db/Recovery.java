@@ -7,32 +7,48 @@ import com.ortosoft.remember.RoutineFunction;
 import com.ortosoft.remember.db.members.Group;
 import com.ortosoft.remember.db.members.Member;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by dima on 12.04.2016.
- * При изменении версии базы данных, старая база перезаписывается новой.
- * Класс реализует сохранение данных о людях, их группах, привязки молитв к молитвословию и пр.
+ * Считывает данные из таблиц members, groups, members_groups, worships_members и сохраняет их в
+ * полях класса, предоставляет возможность сохранять данные в файлы и в базу
  */
-public class Recovery {
-
-    private final static String FILE_MEMBERS = "fileMembers.txt";
-    private final static String FILE_GROUPS = "fileGroups.txt";
-    private final static String FILE_MEMBERS_GROUPS = "fileMembersGroups.txt";
-    private final static String FILE_WORSHIPS_MEMBERS = "fileWorshipMember.txt";
+public class Recovery implements Serializable {
 
     // region Fields
 
-    private static ArrayList<Member> _members;
-    private static ArrayList<Group> _groups;
-    private static ArrayList<Tables.Pair> _members_groups;
-    private static ArrayList<Tables.Pair> _worships_members;
+    private final String SERIALIZE_RECOVERY_FILE = "recovery.out";
+
+    private ArrayList<Member> _members;
+    private ArrayList<Group> _groups;
+    private ArrayList<Tables.Pair> _members_groups;
+    private ArrayList<Tables.Pair> _worships_members;
+
+    public ArrayList<Member> get_members() {
+        return _members;
+    }
+    public ArrayList<Group> get_groups() {
+        return _groups;
+    }
+    public ArrayList<Tables.Pair> get_members_groups() {
+        return _members_groups;
+    }
+    public ArrayList<Tables.Pair> get_worships_members() {
+        return _worships_members;
+    }
 
     // endregion
 
-    // Сохраняет данные из полей класса в базе данных
-    public static void SaveFilesToBase() {
+    // Загружает данные из полей в базу
+    public void SaveToBase() {
 
         SQLiteDatabase sd = Connect.Item().getDb();
 
@@ -45,71 +61,66 @@ public class Recovery {
 
         try {
 
-            String scriptForMembers = RoutineFunction.LoadFromInternalStorage(FILE_MEMBERS);
+            String scriptForMembers = scriptForMembers();
             if (!scriptForMembers.isEmpty()) {
                 sd.execSQL(scriptForMembers);
             }
 
-            String scriptForGroups = RoutineFunction.LoadFromInternalStorage(FILE_GROUPS);
+            String scriptForGroups = scriptForGroups();
             if (!scriptForGroups.isEmpty()) {
                 sd.execSQL(scriptForGroups);
             }
 
-            String scriptForMembersGroups = RoutineFunction.LoadFromInternalStorage(FILE_MEMBERS_GROUPS);
+            String scriptForMembersGroups = scriptForMembersGroups();
             if (!scriptForMembersGroups.isEmpty()) {
                 sd.execSQL(scriptForMembersGroups);
             }
 
-            String scriptForWorshipsMembers = RoutineFunction.LoadFromInternalStorage(FILE_WORSHIPS_MEMBERS);
+            String scriptForWorshipsMembers = scriptForWorshipsMembers();
             if (!scriptForWorshipsMembers.isEmpty()) {
                 sd.execSQL(scriptForWorshipsMembers);
             }
 
             sd.setTransactionSuccessful();
 
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             sd.endTransaction();
         }
     }
 
-    // Сохраняет во внутреннем хранилище скрипты таблиц members, groups, members_groups, worship_members
-    public static void UploadDataToFiles() {
-
-        fillArrays();
-
-        String insertMembers = scriptForMembers();
-        if (insertMembers != null) {
-            RoutineFunction.SaveToInternalStorage(FILE_MEMBERS, insertMembers);
-        }
-
-        String insertGroup = scriptForGroups();
-        if (insertGroup != null) {
-            RoutineFunction.SaveToInternalStorage(FILE_GROUPS, insertGroup);
-        }
-
-        String insertMemberGroup = scriptForMembersGroups();
-        if (insertMemberGroup != null) {
-            RoutineFunction.SaveToInternalStorage(FILE_MEMBERS_GROUPS, insertMemberGroup);
-        }
-
-        String insertWorshipMember = scriptForWorshipsMembers();
-        if (insertWorshipMember != null) {
-            RoutineFunction.SaveToInternalStorage(FILE_WORSHIPS_MEMBERS, insertWorshipMember);
-        }
+    // Сохраняет данные в файлах
+    public void SaveToFile() throws IOException {
+        FileOutputStream fos = new FileOutputStream(SERIALIZE_RECOVERY_FILE);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(this);
+        oos.flush();
+        oos.close();
     }
 
-    // region Helper
-
-    private static void fillArrays() {
+    // Сохраняет данные базы в поля класса
+    public void LoadFromBase() {
         _members = Member.FindAll();
         _groups = Group.FindAll();
         _members_groups = FindAll(Tables.MembersGroups.TABLE_NAME);
         _worships_members = FindAll(Tables.WorshipsMembers.TABLE_NAME);
     }
 
-    private static String scriptForMembers() {
+    public  void LoadFromFiles() throws IOException, ClassNotFoundException {
+        FileInputStream fis = new FileInputStream(SERIALIZE_RECOVERY_FILE);
+        ObjectInputStream oin = new ObjectInputStream(fis);
+        Recovery rec = (Recovery) oin.readObject();
+
+        this._members = rec.get_members();
+        this._groups = rec.get_groups();
+        this._members_groups = rec.get_members_groups();
+        this._worships_members = rec.get_worships_members();
+    }
+
+    // region Helper
+
+    private String scriptForMembers() {
         if (_members == null || _members.isEmpty())
             return null;
 
@@ -123,7 +134,7 @@ public class Recovery {
         return sb.toString();
     }
 
-    private static String scriptForGroups() {
+    private String scriptForGroups() {
         if (_groups == null || _groups.isEmpty())
             return null;
 
@@ -138,7 +149,7 @@ public class Recovery {
         return sb.toString();
     }
 
-    private static String scriptForMembersGroups() {
+    private String scriptForMembersGroups() {
         if (_members_groups == null || _members_groups.isEmpty())
             return null;
 
@@ -153,24 +164,21 @@ public class Recovery {
         return sb.toString();
     }
 
-    private static String scriptForWorshipsMembers() {
+    private String scriptForWorshipsMembers() {
         if (_worships_members == null || _worships_members.isEmpty())
             return null;
 
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO worships_members (id_worship, id_member) VALUES ");
 
-        String prefix = "";
-        for (Tables.Pair p : _worships_members) {
-            sb.append(prefix);
-            prefix = ",";
+        for (Tables.Pair p : _worships_members)
             sb.append(String.format("(%d, %d),", p.get_id1(), p.get_id2()));
-        }
+        sb.deleteCharAt(sb.length() - 1);
 
         return sb.toString();
     }
 
-    private static ArrayList<Tables.Pair> FindAll(String tableName) {
+    private ArrayList<Tables.Pair> FindAll(String tableName) {
         Cursor mCursor = Connect.Item().getDb().query(tableName, null, null, null, null, null, null);
         ArrayList<Tables.Pair> arr = new ArrayList<>();
 
@@ -190,5 +198,8 @@ public class Recovery {
     }
 
     // endregion
+
 }
+
+
 

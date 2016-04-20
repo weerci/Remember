@@ -7,13 +7,14 @@ import com.ortosoft.remember.App;
 import com.ortosoft.remember.db.Connect;
 import com.ortosoft.remember.db.Tables;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by admin on 14.03.2016.
  * Реализует функционал работы с людьми
  */
-public class Member {
+public class Member implements Serializable {
 
     // region Fields and Properties
 
