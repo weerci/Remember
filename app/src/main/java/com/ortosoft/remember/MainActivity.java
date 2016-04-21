@@ -1,22 +1,18 @@
 package com.ortosoft.remember;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
-import com.ortosoft.remember.db.Tables;
 import com.ortosoft.remember.db.assets_db.ChainedSQLiteException;
 import com.ortosoft.remember.db.assets_db.RememberSQLHelper;
 import com.ortosoft.remember.db.members.Group;
@@ -60,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
                     mTextView.setText(sb.toString());
                 }
-                    //mTextView.setText(Member.FindById(1).get_name());
+                //mTextView.setText(Member.FindById(1).get_name());
                 //Snackbar.make(view, "Привет всем!!!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
@@ -103,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
             } catch (ChainedSQLiteException e) {
                 e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
             return true;
