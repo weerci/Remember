@@ -44,8 +44,12 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
 
     // endregion
 
-    public static void Initialize() throws ChainedSQLiteException, IOException {
-//        Recovery.UploadDataToFiles();
+    public static void Initialize() throws ChainedSQLiteException, IOException, ClassNotFoundException {
+        Recovery rec = new Recovery();
+        rec.LoadFromBase();
+        rec.SaveToFile();
+        rec.LoadFromFiles();
+
         checkDb();
         if (!_dbExist){
             copyDbFromAssets();

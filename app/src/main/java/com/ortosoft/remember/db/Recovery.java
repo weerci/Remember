@@ -1,18 +1,22 @@
 package com.ortosoft.remember.db;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.ortosoft.remember.App;
 import com.ortosoft.remember.RoutineFunction;
 import com.ortosoft.remember.db.members.Group;
 import com.ortosoft.remember.db.members.Member;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -92,7 +96,9 @@ public class Recovery implements Serializable {
 
     // Сохраняет данные в файлах
     public void SaveToFile() throws IOException {
-        FileOutputStream fos = new FileOutputStream(SERIALIZE_RECOVERY_FILE);
+//        FileOutputStream fos = new FileOutputStream(SERIALIZE_RECOVERY_FILE);
+        OutputStream fos = App.getContext().openFileOutput(SERIALIZE_RECOVERY_FILE, Context.MODE_PRIVATE);
+
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(this);
         oos.flush();
@@ -108,6 +114,9 @@ public class Recovery implements Serializable {
     }
 
     public  void LoadFromFiles() throws IOException, ClassNotFoundException {
+        File file = new File(SERIALIZE_RECOVERY_FILE);
+        if (file == null)
+            return;
         FileInputStream fis = new FileInputStream(SERIALIZE_RECOVERY_FILE);
         ObjectInputStream oin = new ObjectInputStream(fis);
         Recovery rec = (Recovery) oin.readObject();

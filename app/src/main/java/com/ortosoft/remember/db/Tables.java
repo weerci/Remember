@@ -6,6 +6,8 @@ import android.text.Spanned;
 import com.ortosoft.remember.db.members.IsBaptized;
 import com.ortosoft.remember.db.members.IsDead;
 
+import java.io.Serializable;
+
 /**
  * Created by dima on 01.03.2016.
  * Описание таблиц базы данных
@@ -160,7 +162,7 @@ public class Tables {
     // endregion
 
     // Класс представляет пару занчений id для представления таблиц-связок
-    public static class Pair
+    public static class Pair implements Serializable
     {
         private long _id1;
         private long _id2;
