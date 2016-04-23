@@ -3,6 +3,8 @@ package com.ortosoft.remember;
 import android.app.Application;
 import android.content.Context;
 
+import com.ortosoft.remember.db.ErrorReport.ExceptionHandler;
+
 /**
  * Created by dima on 03.03.2016.
  */
@@ -19,7 +21,8 @@ public class App extends Application {
 
     @Override
     public void onCreate() {
-        super.onCreate();
         App._context = getApplicationContext();
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(_context, true));
+        super.onCreate();
     }
 }

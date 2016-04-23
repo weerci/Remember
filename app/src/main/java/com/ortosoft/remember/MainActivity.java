@@ -63,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Инициализация базы данных
         new AppInitializerTask().execute((Void) null);
+
+//        Integer a=1;
+//        if(true)
+//            a=null;
+//        int x = 6;
+//        x=x/a;  // Exception here!
     }
 
     @Override
