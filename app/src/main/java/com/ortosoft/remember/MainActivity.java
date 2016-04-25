@@ -1,6 +1,7 @@
 package com.ortosoft.remember;
 
 import android.database.sqlite.SQLiteException;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -37,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mTextView = (TextView) findViewById(R.id.main_textView);
+        Typeface mCustomFont = Typeface.createFromAsset(getAssets(),"fonts/IrmIEUcs.ttf");
+        mTextView.setTypeface(mCustomFont);
+
         mTextView.setMovementMethod(new ScrollingMovementMethod());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -60,17 +64,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_morning_prayers) {
-            MorningPrayers mp = new MorningPrayers();
-            if (mTextView != null) {
-                mp.LoadPrayersToTextView(mTextView);
+        if (mTextView == null)
+            return false;
+
+        int id = item.getItemId();
+        StringBuilder sb = new StringBuilder();
+
+        if (id == R.id.action_morning_prayers)
+                MorningPrayers.LoadPrayersToTextView(mTextView);
+
+        else if (id == R.id.action_members) {
+            for (Member m : Member.FindAll()) {
+                sb.append(m.get_name());
             }
+            mTextView.setText(sb.toString());
         }
 
         return super.onOptionsItemSelected(item);

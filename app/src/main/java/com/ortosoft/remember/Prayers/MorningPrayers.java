@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Created by dima on 25.04.2016.
  */
 public class MorningPrayers {
-    public void LoadPrayersToTextView(TextView textView)
+    public static void LoadPrayersToTextView(TextView textView)
     {
         if (textView == null) {
             return;

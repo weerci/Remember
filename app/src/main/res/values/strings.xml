@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Remember</string>
+
+
     <string name="action_settings">Settings</string>
     <string name="action_morning_prayers">Morning prayers</string>
+    <string name="action_members">Members</string>
 
     <string name="unknown_name">--Unknown--</string>
 

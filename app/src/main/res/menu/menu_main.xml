@@ -7,5 +7,10 @@
         android:orderInCategory="100"
         android:title="@string/action_morning_prayers"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_members"
+        android:orderInCategory="200"
+        android:title="@string/action_members"
+        app:showAsAction="never" />
 
 </menu>

@@ -33,7 +33,7 @@ public class RememberSQLHelper extends SQLiteOpenHelper {
     private static final String DB_FOLDER = "/data/data/"+ App.getInstance().getPackageName() + "/databases/";
     public static final String DB_PATH = DB_FOLDER + DB_NAME;
     private static final String DB_ASSETS_PATH = "db/" + DB_NAME;
-    private static final int DB_VERSION = 5;
+    private static final int DB_VERSION = 7;
     private static final int DB_FILES_COPY_BUFFER_SIZE = 8192;
     //endregion
 
