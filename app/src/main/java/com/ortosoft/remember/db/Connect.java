@@ -1,13 +1,6 @@
 package com.ortosoft.remember.db;
 
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-
-import com.ortosoft.remember.App;
-import com.ortosoft.remember.db.assets_db.RememberSQLHelper;
-
-import java.util.ArrayList;
 
 /**
  * Created by dima on 29.02.2016.

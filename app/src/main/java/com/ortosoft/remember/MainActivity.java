@@ -1,7 +1,6 @@
 package com.ortosoft.remember;
 
 import android.database.sqlite.SQLiteException;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,15 +15,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.ortosoft.remember.Prayers.MorningPrayers;
-import com.ortosoft.remember.db.assets_db.ChainedSQLiteException;
-import com.ortosoft.remember.db.assets_db.RememberSQLHelper;
-import com.ortosoft.remember.db.members.Group;
-import com.ortosoft.remember.db.members.Lang;
-import com.ortosoft.remember.db.members.Member;
-import com.ortosoft.remember.db.members.Prayer;
+import com.ortosoft.remember.common.ChainedSQLiteException;
+import com.ortosoft.remember.db.RememberSQLHelper;
+import com.ortosoft.remember.members.Member;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mTextView = (TextView) findViewById(R.id.main_textView);
-        Typeface mCustomFont = Typeface.createFromAsset(getAssets(),"fonts/IrmIEUcs.ttf");
-        mTextView.setTypeface(mCustomFont);
+//        Typeface mCustomFont = Typeface.createFromAsset(getAssets(),"fonts/IrmIEUcs.ttf");
+//        mTextView.setTypeface(mCustomFont);
 
         mTextView.setMovementMethod(new ScrollingMovementMethod());
 

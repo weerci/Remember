@@ -1,9 +1,8 @@
-package com.ortosoft.remember.db.members;
+package com.ortosoft.remember.members;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.ortosoft.remember.App;
 import com.ortosoft.remember.db.Connect;
 import com.ortosoft.remember.db.Tables;
 

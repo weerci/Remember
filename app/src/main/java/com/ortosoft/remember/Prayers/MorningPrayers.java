@@ -5,14 +5,9 @@ import android.text.Html;
 import android.text.Spanned;
 import android.widget.TextView;
 
-import com.ortosoft.remember.RoutineFunction;
+import com.ortosoft.remember.common.RoutineFunction;
 import com.ortosoft.remember.db.Connect;
-import com.ortosoft.remember.db.Tables;
 import com.ortosoft.remember.db.Views;
-import com.ortosoft.remember.db.members.IsBaptized;
-import com.ortosoft.remember.db.members.IsDead;
-
-import java.util.ArrayList;
 
 /**
  * Created by dima on 25.04.2016.

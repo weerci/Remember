@@ -1,17 +1,15 @@
-package com.ortosoft.remember.db.members;
+package com.ortosoft.remember.Prayers;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.Spanned;
 
-import com.ortosoft.remember.RoutineFunction;
+import com.ortosoft.remember.common.RoutineFunction;
 import com.ortosoft.remember.db.Connect;
 import com.ortosoft.remember.db.Tables;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Created by dima on 11.04.2016.

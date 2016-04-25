@@ -1,8 +1,10 @@
-package com.ortosoft.remember;
+package com.ortosoft.remember.common;
 
 import android.content.Context;
 import android.text.Spannable;
 import android.text.Spanned;
+
+import com.ortosoft.remember.App;
 
 import java.io.BufferedReader;
 import java.io.File;

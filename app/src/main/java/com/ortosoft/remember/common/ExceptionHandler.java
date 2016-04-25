@@ -1,4 +1,4 @@
-package com.ortosoft.remember.db.ErrorReport;
+package com.ortosoft.remember.common;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

@@ -1,4 +1,4 @@
-package com.ortosoft.remember.db.members;
+package com.ortosoft.remember.members;
 
 import java.io.Serializable;
 

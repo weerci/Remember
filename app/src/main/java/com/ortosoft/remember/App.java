@@ -3,7 +3,7 @@ package com.ortosoft.remember;
 import android.app.Application;
 import android.content.Context;
 
-import com.ortosoft.remember.db.ErrorReport.ExceptionHandler;
+import com.ortosoft.remember.common.ExceptionHandler;
 
 /**
  * Created by dima on 03.03.2016.

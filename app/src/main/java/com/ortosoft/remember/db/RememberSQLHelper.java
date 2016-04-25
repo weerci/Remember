@@ -1,21 +1,17 @@
-package com.ortosoft.remember.db.assets_db;
+package com.ortosoft.remember.db;
 
-import android.app.Application;
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.ortosoft.remember.App;
-import com.ortosoft.remember.db.Recovery;
-import com.ortosoft.remember.db.Tables;
+import com.ortosoft.remember.common.ChainedSQLiteException;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

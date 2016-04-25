@@ -1,4 +1,4 @@
-package com.ortosoft.remember.db.assets_db;
+package com.ortosoft.remember.common;
 
 import java.io.IOException;
 

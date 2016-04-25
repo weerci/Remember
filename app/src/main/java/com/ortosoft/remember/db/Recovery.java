@@ -5,14 +5,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.ortosoft.remember.App;
-import com.ortosoft.remember.RoutineFunction;
-import com.ortosoft.remember.db.members.Group;
-import com.ortosoft.remember.db.members.Member;
+import com.ortosoft.remember.members.Group;
+import com.ortosoft.remember.members.Member;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

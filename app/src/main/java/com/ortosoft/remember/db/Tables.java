@@ -1,10 +1,7 @@
 package com.ortosoft.remember.db;
 
-import android.text.Spannable;
-import android.text.Spanned;
-
-import com.ortosoft.remember.db.members.IsBaptized;
-import com.ortosoft.remember.db.members.IsDead;
+import com.ortosoft.remember.members.IsBaptized;
+import com.ortosoft.remember.members.IsDead;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.ortosoft.remember.db.members;
+package com.ortosoft.remember.Prayers;
 
 /**
  * Created by dima on 25.04.2016.
