@@ -43,13 +43,34 @@ public class Prayer implements Serializable {
             return _body;
         }
 
+        // Возвращает текст молитвы на выбранном языке
+        public Spannable get_language_body(Lang lang)
+        {
+            String body;
+            Connect connect = Connect.Item();
+            Cursor mCursor = connect.getDb().query(Tables.Prayer.TABLE_NAME+"_"+lang, null, Tables.Prayer.COLUMN_ID + " = ?",
+                    new String[]{String.valueOf(_id)}, null, null, Tables.Prayer.COLUMN_NAME);
+            try {
+                mCursor.moveToFirst();
+                if (!mCursor.isAfterLast()) {
+                    body = mCursor.getString(Tables.Prayer.NUM_COLUMN_BODY);
+                } else {
+                    return null;
+                }
+            } finally {
+                mCursor.close();
+            }
+
+            Spanned spannedText = Html.fromHtml(body);
+            return RoutineFunction.revertSpanned(spannedText);
+        }
+
         // Возвращает текст в виде объекта класса Spannable
         public Spannable get_bodySpannable()
         {
             Spanned spannedText = Html.fromHtml(_body);
             return RoutineFunction.revertSpanned(spannedText);
         }
-
 
         // Возвращает пояснение к молитве
         public String get_comment() {
@@ -94,6 +115,5 @@ public class Prayer implements Serializable {
         }
 
         // endregion
-
 
 }

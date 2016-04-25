@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
@@ -13,9 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ortosoft.remember.Prayers.MorningPrayers;
 import com.ortosoft.remember.db.assets_db.ChainedSQLiteException;
 import com.ortosoft.remember.db.assets_db.RememberSQLHelper;
 import com.ortosoft.remember.db.members.Group;
+import com.ortosoft.remember.db.members.Lang;
 import com.ortosoft.remember.db.members.Member;
 import com.ortosoft.remember.db.members.Prayer;
 
@@ -40,35 +43,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mTextView != null) {
-                    StringBuilder sb = new StringBuilder();
-                    ArrayList<Member> mList = Member.FindAll();
-                    for (Member m : mList)
-                        sb.append(String.format("%d, %s, %s\n", m.get_id(), m.get_name(), m.get_comment()));
-
-                    sb.append("\n\n");
-
-                    ArrayList<Group> gList = Group.FindAll();
-                    for (Group g : gList)
-                        sb.append(String.format("%d, %s\n", g.get_id(), g.get_name()));
-
-                    sb.append(Prayer.FindById(1).get_bodySpannable());
-
-                    mTextView.setText(sb.toString());
-                }
-                //mTextView.setText(Member.FindById(1).get_name());
-                //Snackbar.make(view, "Привет всем!!!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+                Snackbar.make(view, "Привет всем!!!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
         // Инициализация базы данных
         new AppInitializerTask().execute((Void) null);
-
-//        Integer a=1;
-//        if(true)
-//            a=null;
-//        int x = 6;
-//        x=x/a;  // Exception here!
     }
 
     @Override
@@ -86,12 +66,16 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_morning_prayers) {
+            MorningPrayers mp = new MorningPrayers();
+            if (mTextView != null) {
+                mp.LoadPrayersToTextView(mTextView);
+            }
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     private class AppInitializerTask extends AsyncTask<Void, Void, Boolean> {
 

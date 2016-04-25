@@ -102,7 +102,6 @@ public class Group implements Serializable {
         }
     }
 
-
     // endregion
 
     // region Insert, Update, Delete, Refresh
@@ -147,7 +146,6 @@ public class Group implements Serializable {
             connect.getDb().endTransaction();
         }
     }
-
 
     private long insert()
     {
