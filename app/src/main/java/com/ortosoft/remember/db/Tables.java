@@ -121,10 +121,31 @@ public class Tables {
         // Название столбцов
         public static final String COLUMN_ID_MEMBER = "id_worship";
         public static final String COLUMN_ID_GROUP = "id_member";
+        public static final String COLUMN_BY_ORD = "by_ord";
 
         // Номера столбцов
         public static final int NUM_COLUMN_ID_WORSHIP = 0;
         public static final int NUM_COLUMN_ID_MEMBER = 1;
+        public static final int NUM_COLUMN_BY_ORD = 2;
+
+    }
+
+    // endregion
+
+    // region Описание таблицы PRAYERS_WORSHIPS
+    public static class PrayersWorships {
+        // Название таблицы
+        public static final String TABLE_NAME = "prayers_worships";
+
+        // Название столбцов
+        public static final String COLUMN_ID_PRAYER = "id_prayer";
+        public static final String COLUMN_ID_WORSHIP = "id_worship";
+        public static final String COLUMN_BY_ORD = "by_ord";
+
+        // Номера столбцов
+        public static final int NUM_COLUMN_ID_PRAYER = 0;
+        public static final int NUM_COLUMN_ID_WORSHIP = 1;
+        public static final int NUM_COLUMN_BY_ORD = 2;
 
     }
 

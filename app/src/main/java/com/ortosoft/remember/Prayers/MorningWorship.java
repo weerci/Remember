@@ -3,6 +3,7 @@ package com.ortosoft.remember.Prayers;
 import android.database.Cursor;
 
 import com.ortosoft.remember.db.Connect;
+import com.ortosoft.remember.db.SqlQeuries;
 import com.ortosoft.remember.db.Tables;
 
 /**
@@ -11,36 +12,47 @@ import com.ortosoft.remember.db.Tables;
  */
 public class MorningWorship extends WorshipBase {
 
+    private MorningWorship(long id, String name)
+    {
+        super._id = id;
+        super._name = name;
+    }
 
-
-    @Override
-    public void Load() {
-
-        String queryText = String.format("select %1$s from %2$s wm where %3$s  = %4$s", Tables.WorshipsMembers.COLUMN_ID_MEMBER, Tables.WorshipsMembers.TABLE_NAME,
-                Tables.WorshipsMembers.COLUMN_ID_GROUP, _id);
-
-        Cursor mCursor = Connect.Item().getDb().rawQuery(queryText, null);
+    public static MorningWorship Item(String name)
+    {
+        Cursor mCursor = Connect.Item().getDb().query(Tables.Worship.TABLE_NAME, null, Tables.Prayer.COLUMN_NAME+ " = ?", new String[]{name}, null, null, null);
         try {
             mCursor.moveToFirst();
             if (!mCursor.isAfterLast()) {
+                return new MorningWorship(mCursor.getLong(Tables.Worship.NUM_COLUMN_ID), mCursor.getString(Tables.Worship.NUM_COLUMN_NAME));
+            }
+        } finally {
+            mCursor.close();
+        }
+        return null;
+    }
+
+    // Заполнение полей класса данными о молитвах и людях
+    @Override
+    public void Load() {
+        super.Load();
+
+        Cursor mCursor = Connect.Item().getDb().rawQuery(SqlQeuries.SelectPrayersForWorship, new String[] {String.valueOf(_id)});
+        try {
+            mCursor.moveToFirst();
+            if (!mCursor.isAfterLast()) {
+                _prayers.clear();
                 do {
-                    long id = mCursor.getLong(TableSms.NUM_COLUMN_ID);
-                    String titleSms = mCursor.getString(TableSms.NUM_COLUMN_TITLE_SMS);
-                    String textSms = mCursor.getString(TableSms.NUM_COLUMN_TEXT_SMS);
-                    String phoneNumber = mCursor.getString(TableSms.NUM_COLUMN_PHONE_NUMBER);
-                    int priority = mCursor.getInt(TableSms.NUM_COLUMN_PRIORITY);
-                    arr.add(new DbSms(id, titleSms, textSms, phoneNumber, priority, category));
+                    _prayers.add(mCursor.getLong(Tables.PrayersWorships.NUM_COLUMN_ID_PRAYER));
                 } while (mCursor.moveToNext());
             }
         }
-        
         catch (Exception ex){
             ex.printStackTrace();
         }
         finally {
             mCursor.close();
         }
-        return null;
 
     }
 }
