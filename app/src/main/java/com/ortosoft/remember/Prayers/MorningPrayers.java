@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.ortosoft.remember.common.RoutineFunction;
 import com.ortosoft.remember.db.Connect;
-import com.ortosoft.remember.db.Views;
 
 /**
  * Created by dima on 25.04.2016.

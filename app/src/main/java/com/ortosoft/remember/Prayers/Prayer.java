@@ -8,6 +8,7 @@ import android.text.Spanned;
 import com.ortosoft.remember.common.RoutineFunction;
 import com.ortosoft.remember.db.Connect;
 import com.ortosoft.remember.db.Tables;
+import com.ortosoft.remember.presentations.WorshipLangs;
 
 import java.io.Serializable;
 
@@ -42,7 +43,7 @@ public class Prayer implements Serializable {
         }
 
         // Возвращает текст молитвы на выбранном языке
-        public Spannable get_language_body(Lang lang)
+        public Spannable get_language_body(WorshipLangs.Lang lang)
         {
             String body;
             Connect connect = Connect.Item();

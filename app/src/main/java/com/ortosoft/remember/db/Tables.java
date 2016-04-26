@@ -60,6 +60,22 @@ public class Tables {
     }
     // endregion
 
+    // region Описание таблицы WORSHIP
+    public static class Worship {
+        // Название таблицы
+        public static final String TABLE_NAME = "worship";
+
+        // Название столбцов
+        public static final String COLUMN_ID = "_id";
+        public static final String COLUMN_NAME = "name";
+
+        // Номера столбцов
+        public static final int NUM_COLUMN_ID = 0;
+        public static final int NUM_COLUMN_NAME = 1;
+
+    }
+    // endregion
+
     // region Описание таблицы PRAYAERS
     public static class Prayer {
         // Название таблицы
@@ -98,7 +114,6 @@ public class Tables {
     // endregion
 
     // region Описание таблицы WORSHIPS_MEMBERS
-
     public static class WorshipsMembers {
         // Название таблицы
         public static final String TABLE_NAME = "worships_members";
