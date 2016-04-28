@@ -1,7 +1,6 @@
 package com.ortosoft.remember.Prayers;
 
 import android.database.Cursor;
-import android.provider.MediaStore;
 
 import com.ortosoft.remember.db.Connect;
 import com.ortosoft.remember.db.SqlQeuries;
@@ -11,6 +10,7 @@ import com.ortosoft.remember.members.IsDead;
 import com.ortosoft.remember.members.Member;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by dima on 26.04.2016.
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public abstract class WorshipBase {
 
     protected ArrayList<Long> _prayers;
-    private ArrayList<Member> _members;
+    private HashMap<Long, Member> _members;
 
     protected String _name;
     protected long _id;
@@ -42,7 +42,7 @@ public abstract class WorshipBase {
     }
 
     // Возвращает список людей
-    public ArrayList<Member> get_members() {
+    public HashMap<Long, Member> get_members() {
         return _members;
     }
 
@@ -60,7 +60,7 @@ public abstract class WorshipBase {
                     String comment = mCursor.getString(Tables.Member.NUM_COLUMN_COMMENT);
                     IsDead isDead = Tables.IntToIsDead(mCursor.getInt(Tables.Member.NUM_COLUMN_DEAD));
                     IsBaptized baptized = Tables.IntToBaptized(mCursor.getInt(Tables.Member.NUM_COLUMN_BAPTIZED));
-                    _members.add(new Member(id, name, comment, isDead, baptized));
+                    _members.put(id, new Member(id, name, comment, isDead, baptized));
                 } while (mCursor.moveToNext());
             }
         }
