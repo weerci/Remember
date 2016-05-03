@@ -18,24 +18,6 @@ public class MorningPrayers {
             return;
         }
 
-        Connect connect = Connect.Item();
-        Cursor mCursor = connect.getDb().query(Views.ViewMorningPrayers.VIEW_NAME, null, null, null, null, null, null);
-        StringBuilder sb = new StringBuilder();
-
-        try {
-            mCursor.moveToFirst();
-            if (!mCursor.isAfterLast()) {
-                do {
-                    sb.append(mCursor.getString(Views.ViewMorningPrayers.NUM_COLUMN_BODY));
-                } while (mCursor.moveToNext());
-
-                Spanned spannedText = Html.fromHtml(sb.toString());
-                textView.setText(RoutineFunction.revertSpanned(spannedText));
-            }
-        } finally {
-            mCursor.close();
-        }
-
     }
 
 }

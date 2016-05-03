@@ -43,23 +43,23 @@ public class WorshipLangs {
             case CES:
                 if (_nameCES != null)
                     return _nameCES;
-                return _nameCES = selectNameFromBase(lang);
+                return _nameCES = selectName(lang);
             case RUS:
                 if (_nameRUS != null)
                     return _nameRUS;
-                return _nameRUS = selectNameFromBase(lang);
+                return _nameRUS = selectName(lang);
             case ENG:
                 if (_nameENG != null)
                     return _nameENG;
-                return _nameENG = selectNameFromBase(lang);
+                return _nameENG = selectName(lang);
             case GRC:
                 if (_nameGRC != null)
                     return _nameGRC;
-                return _nameGRC = selectNameFromBase(lang);
+                return _nameGRC = selectName(lang);
             case LAT:
                 if (_nameLAT != null)
                     return _nameLAT;
-                return _nameLAT = selectNameFromBase(lang);
+                return _nameLAT = selectName(lang);
         }
         return null;
     }
